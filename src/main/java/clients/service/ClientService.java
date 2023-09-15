@@ -1,6 +1,8 @@
 package clients.service;
 
 import clients.model.Client;
+import org.springframework.http.HttpStatus;
+
 import java.util.List;
 
 public interface ClientService {
@@ -8,7 +10,7 @@ public interface ClientService {
      * Создает нового клиента
      * @param client - клиент для создания
      */
-    void create(Client client);
+    HttpStatus create(Client client);
 
     /**
      * Возвращает список всех имеющихся клиентов

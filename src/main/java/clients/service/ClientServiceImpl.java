@@ -1,6 +1,7 @@
 package clients.service;
 
 import clients.model.Client;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,11 @@ public class ClientServiceImpl implements ClientService {
     private static final AtomicInteger CLIENT_ID_HOLDER = new AtomicInteger();
 
     @Override
-    public void create(Client client) {
+    public HttpStatus create(Client client) {
         final int clientId = CLIENT_ID_HOLDER.incrementAndGet();
         client.setId(clientId);
         CLIENT_REPOSITORY_MAP.put(clientId, client);
+        return HttpStatus.CREATED;
     }
 
     @Override
