@@ -1,13 +1,15 @@
 package clients.controller;
 
+
 import clients.model.Client;
 import clients.service.ClientService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ClientController {
@@ -18,9 +20,47 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @Operation(summary = "Сохранение пользователя", tags = {"Clients"})
     @PostMapping(value = "/clients")
-    public ResponseEntity<Client> create(@RequestBody Client client) {
-//        clientService.create(client);
-        return new ResponseEntity<>(clientService.create(client));
+    public ResponseEntity<?> create(@RequestBody Client client) {
+        clientService.create(client);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Вывести всех клиентов", tags = {"Clients"})
+    @GetMapping(value = "/clients")
+    public ResponseEntity<List<Client>> read() {
+
+        final List<Client> clients = clientService.readAll();
+        return clients != null && !clients.isEmpty()
+                ? new ResponseEntity<>(clients, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Вывести клиента по id", tags = {"Clients"})
+    @GetMapping(value = "/clients/{id}")
+    public ResponseEntity<Client> read(@PathVariable(name = "id") int id) {
+        final Client client = clientService.read(id);
+        return client != null
+                ? new ResponseEntity<>(client, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Изменить данные клиентов", tags = {"Clients"})
+    @PutMapping(value = "/clients/{id}")
+    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Client client) {
+        final boolean updated = clientService.update(client, id);
+        return updated
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @Operation(summary = "Удалить клиента по id", tags = {"Clients"})
+    @DeleteMapping(value = "/clients/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
+        final boolean deleted = clientService.delete(id);
+        return deleted
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }

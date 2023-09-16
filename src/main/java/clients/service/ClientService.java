@@ -10,7 +10,7 @@ public interface ClientService {
      * Создает нового клиента
      * @param client - клиент для создания
      */
-    HttpStatus create(Client client);
+    void create(Client client);
 
     /**
      * Возвращает список всех имеющихся клиентов

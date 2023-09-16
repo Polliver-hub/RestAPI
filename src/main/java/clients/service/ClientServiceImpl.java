@@ -17,11 +17,10 @@ public class ClientServiceImpl implements ClientService {
     private static final AtomicInteger CLIENT_ID_HOLDER = new AtomicInteger();
 
     @Override
-    public HttpStatus create(Client client) {
+    public void create(Client client) {
         final int clientId = CLIENT_ID_HOLDER.incrementAndGet();
         client.setId(clientId);
         CLIENT_REPOSITORY_MAP.put(clientId, client);
-        return HttpStatus.CREATED;
     }
 
     @Override
