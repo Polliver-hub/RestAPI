@@ -1,4 +1,4 @@
-package clients.model;
+package simpleRESTfulApi.model;
 import lombok.*;
 
 @Getter

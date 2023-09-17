@@ -1,9 +1,8 @@
-package clients.controller;
+package simpleRESTfulApi.controller;
 
 
-import clients.model.Client;
-import clients.service.ClientService;
-import io.swagger.v3.oas.annotations.Operation;
+import simpleRESTfulApi.model.Client;
+import simpleRESTfulApi.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +19,12 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @Operation(summary = "Сохранение пользователя", tags = {"Clients"})
     @PostMapping(value = "/clients")
     public ResponseEntity<?> create(@RequestBody Client client) {
         clientService.create(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Вывести всех клиентов", tags = {"Clients"})
     @GetMapping(value = "/clients")
     public ResponseEntity<List<Client>> read() {
 
@@ -37,7 +34,6 @@ public class ClientController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @Operation(summary = "Вывести клиента по id", tags = {"Clients"})
     @GetMapping(value = "/clients/{id}")
     public ResponseEntity<Client> read(@PathVariable(name = "id") int id) {
         final Client client = clientService.read(id);
@@ -46,7 +42,7 @@ public class ClientController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @Operation(summary = "Изменить данные клиентов", tags = {"Clients"})
+
     @PutMapping(value = "/clients/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Client client) {
         final boolean updated = clientService.update(client, id);
@@ -55,7 +51,6 @@ public class ClientController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @Operation(summary = "Удалить клиента по id", tags = {"Clients"})
     @DeleteMapping(value = "/clients/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
         final boolean deleted = clientService.delete(id);

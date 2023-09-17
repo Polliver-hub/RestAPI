@@ -1,7 +1,6 @@
-package clients.service;
+package simpleRESTfulApi.service;
 
-import clients.model.Client;
-import org.springframework.http.HttpStatus;
+import simpleRESTfulApi.model.Client;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
