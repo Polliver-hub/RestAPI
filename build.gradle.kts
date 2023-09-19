@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.3"
 }
 
-group = "clients"
+group = "SimpleRESTfulApi"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -22,17 +22,19 @@ repositories {
 }
 
 dependencies {
+    implementation ("org.mapstruct:mapstruct:1.5.5.Final")
     implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
-//    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-web-services")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.postgresql:postgresql")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<Test> {

@@ -1,8 +1,8 @@
-package simpleRESTfulApi.controller;
+package simpleRESTfulApi.controllers;
 
 
-import simpleRESTfulApi.model.Client;
-import simpleRESTfulApi.service.ClientService;
+import simpleRESTfulApi.entites.Client;
+import simpleRESTfulApi.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

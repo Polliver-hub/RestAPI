@@ -1,9 +1,9 @@
-package simpleRESTfulApi.model;
-import lombok.*;
+package simpleRESTfulApi.dto;
 
-@Getter
-@Setter
-public class Client {
+import lombok.Data;
+
+@Data
+public class ClientsDTO {
     private Integer id;
     private String name;
     private String email;

@@ -1,6 +1,6 @@
-package simpleRESTfulApi.service;
+package simpleRESTfulApi.services;
 
-import simpleRESTfulApi.model.Client;
+import simpleRESTfulApi.entites.Client;
 
 import java.util.List;
 
