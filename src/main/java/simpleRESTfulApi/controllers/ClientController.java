@@ -1,7 +1,7 @@
 package simpleRESTfulApi.controllers;
 
-
-import simpleRESTfulApi.entites.Client;
+import simpleRESTfulApi.dto.ClientDTO;
+import simpleRESTfulApi.mappers.ClientMapper;
 import simpleRESTfulApi.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,23 +20,22 @@ public class ClientController {
     }
 
     @PostMapping(value = "/clients")
-    public ResponseEntity<?> create(@RequestBody Client client) {
-        clientService.create(client);
+    public ResponseEntity<ClientDTO> create(@RequestBody ClientDTO clientDTO) {
+        clientService.create(ClientMapper.INSTANCE.clientDtoToClient(clientDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/clients")
-    public ResponseEntity<List<Client>> read() {
-
-        final List<Client> clients = clientService.readAll();
+    public ResponseEntity<List<ClientDTO>> read() {
+        final List<ClientDTO> clients = ClientMapper.INSTANCE.clientListToClientDtoList(clientService.readAll());
         return clients != null && !clients.isEmpty()
                 ? new ResponseEntity<>(clients, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/clients/{id}")
-    public ResponseEntity<Client> read(@PathVariable(name = "id") int id) {
-        final Client client = clientService.read(id);
+    public ResponseEntity<ClientDTO> read(@PathVariable(name = "id") int id) {
+        final ClientDTO client = ClientMapper.INSTANCE.ClientToClientDTO(clientService.read(id));
         return client != null
                 ? new ResponseEntity<>(client, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,15 +43,15 @@ public class ClientController {
 
 
     @PutMapping(value = "/clients/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Client client) {
-        final boolean updated = clientService.update(client, id);
+    public ResponseEntity<ClientDTO> update(@PathVariable(name = "id") int id, @RequestBody ClientDTO dto) {
+        final boolean updated = clientService.update(ClientMapper.INSTANCE.clientDtoToClient(dto), id);
         return updated
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping(value = "/clients/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
+    public ResponseEntity<ClientDTO> delete(@PathVariable(name = "id") int id) {
         final boolean deleted = clientService.delete(id);
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)

@@ -1,5 +1,6 @@
 package simpleRESTfulApi.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simpleRESTfulApi.entites.Client;
 import simpleRESTfulApi.repositories.ClientsRepository;
@@ -9,10 +10,9 @@ import java.util.List;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    //    private static final Map<Integer, Client> CLIENT_REPOSITORY_MAP = new HashMap<>();
-//    private static final AtomicInteger CLIENT_ID_HOLDER = new AtomicInteger();
     private final ClientsRepository clientsRepository;
 
+    @Autowired
     public ClientServiceImpl(ClientsRepository clientsRepository) {
         this.clientsRepository = clientsRepository;
     }
