@@ -1,6 +1,6 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.0.6" //3.1.3
+    id("org.springframework.boot") version "3.0.6"
     id("io.spring.dependency-management") version "1.1.3"
 }
 
@@ -23,9 +23,6 @@ repositories {
 
 dependencies {
     //spring
-//    implementation("io.springfox:springfox-boot-starter:3.0.0")
-//    implementation("io.springfox:springfox-swagger-ui:3.0.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
     implementation("org.springframework.boot:spring-boot-starter-data-rest")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-web-services")
@@ -43,6 +40,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     //hibernate
     implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
+    //swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 
 }
 
