@@ -1,6 +1,5 @@
 package simpleRESTfulApi.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import simpleRESTfulApi.entites.Client;
 import simpleRESTfulApi.repositories.ClientsRepository;
@@ -12,7 +11,6 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientsRepository clientsRepository;
 
-    @Autowired
     public ClientServiceImpl(ClientsRepository clientsRepository) {
         this.clientsRepository = clientsRepository;
     }

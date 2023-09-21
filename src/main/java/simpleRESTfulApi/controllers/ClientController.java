@@ -36,7 +36,7 @@ public class ClientController {
     @GetMapping(value = "/clients/{id}")
     public ResponseEntity<ClientDTO> read(@PathVariable(name = "id") int id) {
         final ClientDTO client = ClientMapper.INSTANCE.ClientToClientDTO(clientService.read(id));
-        return client != null
+        return clientService.read(id) != null
                 ? new ResponseEntity<>(client, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
