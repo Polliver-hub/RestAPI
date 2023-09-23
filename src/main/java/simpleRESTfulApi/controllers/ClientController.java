@@ -1,5 +1,6 @@
 package simpleRESTfulApi.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import simpleRESTfulApi.dto.ClientDTO;
 import simpleRESTfulApi.mappers.ClientMapper;
 import simpleRESTfulApi.services.ClientService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Clients")
 public class ClientController {
     private final ClientService clientService;
 
@@ -35,9 +37,9 @@ public class ClientController {
 
     @GetMapping(value = "/clients/{id}")
     public ResponseEntity<ClientDTO> read(@PathVariable(name = "id") int id) {
-        final ClientDTO client = ClientMapper.INSTANCE.ClientToClientDTO(clientService.read(id));
         return clientService.read(id) != null
-                ? new ResponseEntity<>(client, HttpStatus.OK)
+                ? new ResponseEntity<>(ClientMapper.INSTANCE.ClientToClientDTO
+                (clientService.read(id)), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -55,6 +57,15 @@ public class ClientController {
         final boolean deleted = clientService.delete(id);
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @PatchMapping(value = "/clients/{id}")
+    public ResponseEntity<ClientDTO> updatePatch(@PathVariable(name = "id") int id, @RequestBody ClientDTO dto) {
+        return clientService.read(id) != null
+                ? new ResponseEntity<>(ClientMapper.INSTANCE.ClientToClientDTO
+                (clientService.updatePatch(ClientMapper.INSTANCE.clientDtoToClient(dto),
+                        id)), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }

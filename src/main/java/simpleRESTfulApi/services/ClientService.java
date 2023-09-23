@@ -38,6 +38,16 @@ public interface ClientService {
     boolean update(Client client, int id);
 
     /**
+     * Обновляет клиента с заданным ID,
+     * в соответствии с переданным клиентом
+     *
+     * @param client - клиент в соответсвии с которым нужно обновить данные
+     * @param id     - id клиента которого нужно обновить
+     * @return - true если данные были обновлены, иначе false
+     */
+    Client updatePatch(Client client, int id);
+
+    /**
      * Удаляет клиента с заданным ID
      *
      * @param id - id клиента, которого нужно удалить

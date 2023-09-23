@@ -41,6 +41,22 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Client updatePatch(Client client, int id) {
+        Client clientById = clientsRepository.getReferenceById(id);
+        if (client.getName() != null) {
+            clientById.setName(client.getName());
+        }
+        if (client.getEmail() != null) {
+            clientById.setEmail(client.getEmail());
+        }
+        if (client.getPhone() != null) {
+            clientById.setPhone(client.getPhone());
+        }
+        clientsRepository.save(clientById);
+        return clientById;
+    }
+
+    @Override
     public boolean delete(int id) {
         if (clientsRepository.existsById(id)) {
             clientsRepository.deleteById(id);

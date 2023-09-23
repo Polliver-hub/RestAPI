@@ -1,4 +1,4 @@
-.PHONY: all build docker_up
+.PHONY: all build docker_up stop clean rebuild
 
 all: build docker_up
 
@@ -6,7 +6,7 @@ build:
 	docker-compose up db -d
 	gradle build
 
-docker_up:
+docker_up: build
 	docker-compose up -d
 
 stop:
