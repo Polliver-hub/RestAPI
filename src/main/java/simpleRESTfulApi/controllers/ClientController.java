@@ -1,6 +1,7 @@
 package simpleRESTfulApi.controllers;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import simpleRESTfulApi.dto.ClientDTO;
 import simpleRESTfulApi.mappers.ClientMapper;
 import simpleRESTfulApi.services.ClientService;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @Tag(name = "Clients")
 public class ClientController {
+
     private final ClientService clientService;
 
     @Autowired
@@ -24,6 +27,7 @@ public class ClientController {
     @PostMapping(value = "/clients")
     public ResponseEntity<ClientDTO> create(@RequestBody ClientDTO clientDTO) {
         clientService.create(ClientMapper.INSTANCE.clientDtoToClient(clientDTO));
+        log.info("client: " + clientDTO.toString() + " add");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -55,6 +59,7 @@ public class ClientController {
     @DeleteMapping(value = "/clients/{id}")
     public ResponseEntity<ClientDTO> delete(@PathVariable(name = "id") int id) {
         final boolean deleted = clientService.delete(id);
+        log.info("remove client by id: " + id);
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
