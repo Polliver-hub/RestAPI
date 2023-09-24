@@ -1,5 +1,6 @@
 package simpleRESTfulApi.services;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import simpleRESTfulApi.entites.Client;
@@ -8,51 +9,51 @@ import simpleRESTfulApi.repositories.ClientsRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ClientServiceImplTest {
 
+    private ClientsRepository clientsRepository;
+    private ClientService clientService;
+
+    @BeforeEach
+    void setUp() {
+        clientsRepository = Mockito.mock(ClientsRepository.class);
+        clientService = new ClientServiceImpl(clientsRepository);
+    }
+
     @Test
     void create() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client1 = new Client(1, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
         when(clientsRepository.getReferenceById(1)).thenReturn(client1);
         clientService.create(client1);
+        verify(clientsRepository,times(1)).save(client1);
         Client check = clientService.read(1);
         assertEquals(client1,check);
+        verify(clientsRepository,times(1)).getReferenceById(1);
     }
 
     @Test
     void readAll() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client1 = new Client(1, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
         Client client2 = new Client(2,null,null,null);
         Client client3 = new Client();
-        List <Client> list = new ArrayList<>();
-        list.add(client1);
-        list.add(client2);
-        list.add(client3);
-        when(clientsRepository.findAll()).thenReturn(list);
-        assertEquals(clientService.readAll(), list);
+        when(clientsRepository.findAll()).thenReturn(List.of(client1, client2, client3));
+        assertEquals(clientService.readAll(), List.of(client1, client2, client3));
     }
 
     @Test
     void read() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client2 = new Client(2,null,null,null);
         clientService.create(client2);
         when(clientsRepository.getReferenceById(2)).thenReturn(client2);
         assertEquals(clientService.read(2), client2);
+        verify(clientsRepository,times(1)).getReferenceById(2);
     }
 
     @Test
     void update() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client1 = new Client(1,null,null,null);
         Client client2 = new Client(2, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
         Client clientNewClient1 = new Client(1, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
@@ -64,8 +65,6 @@ class ClientServiceImplTest {
 
     @Test
     void updatePatch() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client1 = new Client(1,"Petia",null,null);
         Client client2 = new Client(2, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
         Client result = new Client(2, "Petia","ivan@gmail.com", "+7 925 444 33 22");
@@ -78,14 +77,13 @@ class ClientServiceImplTest {
 
     @Test
     void delete() {
-        ClientsRepository clientsRepository = Mockito.mock(ClientsRepository.class);
-        final ClientService clientService = new ClientServiceImpl(clientsRepository);
         Client client1 = new Client(1,null,null,null);
         Client client2 = new Client(2, "ivan", "ivan@gmail.com", "+7 925 444 33 22");
         clientService.create(client1);
         clientService.create(client2);
         when(clientsRepository.existsById(2)).thenReturn(true);
-        assertEquals(clientService.delete( 2), true);
-
+        assertTrue(clientService.delete( 2));
+        verify(clientsRepository,times(1)).deleteById(2);
+        assertNull(clientService.read( 2));
     }
 }

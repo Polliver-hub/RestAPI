@@ -32,7 +32,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/clients")
-    public ResponseEntity<List<ClientDTO>> read() {
+    public ResponseEntity<List<ClientDTO>> readAllClients() {
         final List<ClientDTO> clients = ClientMapper.INSTANCE.clientListToClientDtoList(clientService.readAll());
         return clients != null && !clients.isEmpty()
                 ? new ResponseEntity<>(clients, HttpStatus.OK)
@@ -40,7 +40,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/clients/{id}")
-    public ResponseEntity<ClientDTO> read(@PathVariable(name = "id") int id) {
+    public ResponseEntity<ClientDTO> readById(@PathVariable(name = "id") int id) {
         return clientService.read(id) != null
                 ? new ResponseEntity<>(ClientMapper.INSTANCE.ClientToClientDTO
                 (clientService.read(id)), HttpStatus.OK)
